@@ -387,6 +387,11 @@ async fn run_wave(
 	Ok(WaveReport { ring_statements: expected.len(), submit_time, verify_time })
 }
 
+// Runs on demand: the `A6-statement-store` label on a PR, or a dispatch of
+// .github/workflows/zombienet_statement-store-soak.yml. The size comes from `soak-nodes` in
+// .github/zombienet-tests/zombienet_statement_store_soak_tests.yml, or from
+// STATEMENT_V2_SOAK_NODES when run by hand. It is capped at 40 for now because of the open bug
+// paritytech/litep2p#665; raise it once that is fixed.
 #[tokio::test(flavor = "multi_thread")]
 async fn statement_store_v2_dht_soak() -> Result<(), anyhow::Error> {
 	let _ = env_logger::try_init_from_env(
